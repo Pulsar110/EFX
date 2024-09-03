@@ -6,14 +6,14 @@ import time
 N = 3
 N_arr = list(range(N))
 # Number of experiment to run for each sampled cost 
-N_EXP = 100
+N_EXP = 50000
 COST_FUNCTION = sum
 # COST_RND = random.random
 COST_RND = lambda: random.randrange(1,1000)
 
 
 # Number of items
-for i in range(12,17):
+for i in range(8,9):
     M = i
     M_arr = list(range(M))
 
@@ -114,7 +114,7 @@ for i in range(12,17):
                         print('\tCost for bundle - item x:', end=' ')
                         for cost_n in iter_remove_one_item_cost(i, item_arr[i], cost_arr):
                             print(cost_n, end=' ')
-                        print('\n\tCost for other bundle:', *[get_cost(i, item_arr[n], cost_arr) for n in N_arr if i != n])
+                        print('\n\tCost for other bundle:', *[get_cost(i, item_arr[j], cost_arr) for j in N_arr if i != j])
                         print('')
                     print_one_found_example_per_n_ef[n_ef] = False
             if is_ef:
@@ -122,6 +122,12 @@ for i in range(12,17):
             n_runs += 1
         statistics_efx.append(found_efx)
         statistics_ef.append(found_ef)
+        if found_ef == 0:
+            print('Found sample with no EF')
+            print('(additive) Valuation (%d/%d)'%(n+1, N_EXP))
+            for i in N_arr:
+                print('Agent n=', i, cost_arr[i])
+            print('')
 
 
     print('\nStatistics\n')
